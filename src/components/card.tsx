@@ -1,4 +1,4 @@
-import { ArrowUpIcon } from "@heroicons/react/20/solid";
+import { ArrowUpIcon, ArrowUpRightIcon } from "@heroicons/react/20/solid";
 import { formatNumber } from "../lib/utils/format-number";
 import graph from "../assets/icons/graph.svg";
 
@@ -12,7 +12,10 @@ type Props = {
 export default function Card({ title, amount, percent, text }: Props) {
   return (
     <div className="px-4 py-5 sm:p-6">
-      <dt className="text-xs leading-5 text-gray-500">{title}</dt>
+      <div className="flex justify-between">
+        <dt className="text-xs leading-5 text-gray-500">{title}</dt>
+        <ArrowUpRightIcon className="size-4" />
+      </div>
       <dd className="mt-1 flex flex-col space-y-2.5 items-baseline justify-between md:block lg:flex">
         <div>
           <p className="flex items-baseline text-3xl font-semibold text-gray-800">

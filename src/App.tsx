@@ -13,6 +13,37 @@ import { classNames } from "./lib/utils/classnames";
 import { stats } from "./lib/data/metrics";
 import Card from "./components/card";
 import { Button } from "./components/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./components/select";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from "chart.js";
+import { Bar, Doughnut } from "react-chartjs-2";
+import { engagementData, engagementOptions } from "./lib/data/engagement";
+import { genderData } from "./lib/data/gender";
+import { ageGroupData, ageGroupOptions } from "./lib/data/age-groups";
+
+ChartJS.register(
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -293,6 +324,49 @@ export default function App() {
                 />
               ))}
             </dl>
+          </div>
+
+          <div className="grid md:grid-cols-2 items-baseline gap-4 mt-10">
+            <div>
+              <div className="flex justify-between items-center">
+                <p className="text-base font-medium">Engagement Rates</p>
+                <Select defaultValue="weekly">
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="duration" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
+                    <SelectItem value="yearly">Yearly</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <Bar
+                options={engagementOptions}
+                data={engagementData}
+                className="mt-10"
+              />
+            </div>
+            <div>
+              <p className="text-base font-medium my-auto">
+                Audience Demography
+              </p>
+              <div className="grid lg:grid-cols-2 gap-4 mt-10 items-start">
+                <div>
+                  <Doughnut
+                    data={genderData}
+                    // data={genderData}
+                    options={{
+                      cutout: 110,
+                      radius: "50%",
+                    }}
+                  />
+                </div>
+                <div>
+                  <Bar options={ageGroupOptions} data={ageGroupData} />
+                </div>
+              </div>
+            </div>
           </div>
         </main>
       </div>
