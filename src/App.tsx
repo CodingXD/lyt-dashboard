@@ -3,36 +3,16 @@ import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   ArrowRightStartOnRectangleIcon,
   Bars3Icon,
-  BellIcon,
-  Cog6ToothIcon,
-  PhotoIcon,
-  QuestionMarkCircleIcon,
-  UserGroupIcon,
-  UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-  MagnifyingGlassIcon,
-  RectangleGroupIcon,
-} from "@heroicons/react/20/solid";
-import person from "./assets/person.png";
-import logo from "./assets/logo.png";
-
-const navigation = [
-  { name: "Dashboard", href: "#", icon: RectangleGroupIcon, current: true },
-  { name: "Analytics", href: "#", icon: UsersIcon, current: false },
-  { name: "Communities", href: "#", icon: UserGroupIcon, current: false },
-  { name: "Notifications", href: "#", icon: BellIcon, current: false },
-  { name: "Media", href: "#", icon: PhotoIcon, current: false },
-  { name: "Support", href: "#", icon: QuestionMarkCircleIcon, current: false },
-  { name: "Settings", href: "#", icon: Cog6ToothIcon, current: false },
-];
-const userNavigation = [
-  { name: "Your profile", href: "#" },
-  { name: "Sign out", href: "#" },
-];
-
-const classNames = (...classes: string[]) => classes.filter(Boolean).join(" ");
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import person from "./assets/images/person.png";
+import logo from "./assets/images/logo.png";
+import { navigation, userNavigation } from "./lib/data/navigation";
+import { classNames } from "./lib/utils/classnames";
+import { stats } from "./lib/data/metrics";
+import Card from "./components/card";
+import { Button } from "./components/button";
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -290,8 +270,30 @@ export default function App() {
           </div>
         </div>
 
-        <main className="py-10">
-          <div className="px-4 sm:px-6 lg:px-8">{/* Your content */}</div>
+        <main className="py-10 px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between">
+            <h1 className="text-lg">Performance Metrics</h1>
+            <Button
+              variant="link"
+              onClick={() => console.log("Download Summary")}
+            >
+              Download Summary
+            </Button>
+          </div>
+
+          <div>
+            <dl className="mt-5 grid grid-cols-1 overflow-hidden rounded-lg md:grid-cols-3">
+              {stats.map((item) => (
+                <Card
+                  key={item.name}
+                  title={item.name}
+                  amount={item.stat}
+                  percent={item.change}
+                  text={item.changeText}
+                />
+              ))}
+            </dl>
+          </div>
         </main>
       </div>
     </div>
