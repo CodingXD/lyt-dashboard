@@ -21,7 +21,7 @@ export const engagementData = {
     {
       label: "Dataset 1",
       data: labels.map(() => faker.number.int({ min: 0, max: 100 })),
-      backgroundColor: "hsl(var(--secondary))",
+      backgroundColor: "rgb(187 247 208)",
     },
   ],
 };

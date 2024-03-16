@@ -5,7 +5,12 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import {
+  ArrowUpIcon,
+  EllipsisHorizontalIcon,
+  EyeIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/20/solid";
 import person from "./assets/images/person.png";
 import logo from "./assets/images/logo.png";
 import { navigation, userNavigation } from "./lib/data/navigation";
@@ -32,8 +37,11 @@ import {
 } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
 import { engagementData, engagementOptions } from "./lib/data/engagement";
-import { genderData } from "./lib/data/gender";
+import { genderData, genderOptions } from "./lib/data/gender";
 import { ageGroupData, ageGroupOptions } from "./lib/data/age-groups";
+import { locations } from "./lib/data/locations";
+import { activities } from "./lib/data/post-activities";
+import { formatNumber } from "./lib/utils/format-number";
 
 ChartJS.register(
   ArcElement,
@@ -346,26 +354,133 @@ export default function App() {
                 data={engagementData}
                 className="mt-10"
               />
+
+              <p className="mt-10 text-lg font-medium my-auto">Post Activity</p>
+
+              <ul role="list" className="divide-y divide-gray-100">
+                {activities.map(({ title, imageUrl, date, views }) => (
+                  <li key={title} className="flex justify-between gap-x-6 py-5">
+                    <div className="flex min-w-0 gap-x-4">
+                      <img
+                        className="size-12 flex-none rounded bg-gray-50"
+                        src={imageUrl}
+                        alt={title}
+                      />
+                      <div className="max-w-72 flex-auto">
+                        <p className="text-sm font-semibold leading-6 text-gray-900">
+                          {title}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-sm whitespace-nowrap font-semibold my-auto leading-6 text-gray-900">
+                      {date}
+                    </p>
+                    <p className="text-sm flex items-center font-semibold space-x-1 whitespace-nowrap my-auto leading-6 text-gray-900">
+                      <EyeIcon className="size-3.5 bg-green-400 text-white rounded-full p-px" />
+                      <span>{formatNumber(views)}</span>
+                    </p>
+                    <div className="flex shrink-0 items-center gap-x-6">
+                      <Menu as="div" className="relative flex-none">
+                        <Menu.Button className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+                          <span className="sr-only">Open options</span>
+                          <EllipsisHorizontalIcon
+                            className="size-5"
+                            aria-hidden="true"
+                          />
+                        </Menu.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                            <Menu.Item>
+                              {({ active }) => (
+                                <a
+                                  href="#"
+                                  className={classNames(
+                                    active ? "bg-gray-50" : "",
+                                    "block px-3 py-1 text-sm leading-6 text-gray-900"
+                                  )}
+                                >
+                                  View post
+                                  <span className="sr-only">, {title}</span>
+                                </a>
+                              )}
+                            </Menu.Item>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <a
+                                  href="#"
+                                  className={classNames(
+                                    active ? "bg-gray-50" : "",
+                                    "block px-3 py-1 text-sm leading-6 text-gray-900"
+                                  )}
+                                >
+                                  Message
+                                  <span className="sr-only">, {title}</span>
+                                </a>
+                              )}
+                            </Menu.Item>
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div>
               <p className="text-base font-medium my-auto">
                 Audience Demography
               </p>
-              <div className="grid lg:grid-cols-2 gap-4 mt-10 items-start">
+              <div className="grid lg:grid-cols-3 gap-4 mt-10 items-start">
                 <div>
-                  <Doughnut
-                    data={genderData}
-                    // data={genderData}
-                    options={{
-                      cutout: 110,
-                      radius: "50%",
-                    }}
-                  />
+                  <Doughnut data={genderData} options={genderOptions} />
                 </div>
-                <div>
+                <div className="lg:col-span-2">
                   <Bar options={ageGroupOptions} data={ageGroupData} />
                 </div>
               </div>
+              <div className="flex justify-between mt-10">
+                <p className="text-base font-medium my-auto">Top Locations</p>
+                <Button variant="outline" className="px-6">
+                  See More
+                </Button>
+              </div>
+              <ul role="list" className="divide-y divide-gray-100">
+                <li className="flex justify-between gap-x-6 py-3">
+                  <p className="text-xs leading-6 text-gray-600">Country</p>
+                  <div className="shrink-0 flex flex-col items-end">
+                    <p className="text-xs leading-6 text-gray-600">Visitors</p>
+                  </div>
+                </li>
+                {locations.map(({ country, percent, visitors }) => (
+                  <li
+                    key={country}
+                    className="flex justify-between gap-x-6 py-3"
+                  >
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      {country}
+                    </p>
+                    <div className="shrink-0 flex flex-col items-end">
+                      <p className="text-sm leading-6 text-gray-900">
+                        {formatNumber(visitors, "standard")}
+                      </p>
+                      <p className="mt-1 flex items-center text-xs leading-5 text-green-500">
+                        <span>
+                          <ArrowUpIcon className="size-3" />
+                        </span>
+                        <span>{percent}</span>
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </main>

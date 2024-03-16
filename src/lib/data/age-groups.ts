@@ -10,31 +10,52 @@ export const ageGroupOptions = {
   responsive: true,
   plugins: {
     legend: {
-      position: "right" as const,
+      display: false,
     },
     title: {
       display: true,
-      text: "Chart.js Horizontal Bar Chart",
+      text: "Age Group",
+      align: "start" as const,
+    },
+  },
+  interaction: {
+    mode: "index" as const,
+    intersect: false,
+  },
+  scales: {
+    x: {
+      stacked: true,
+      display: false,
+    },
+    y: {
+      stacked: true,
+      display: false,
     },
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const labels = ["16-25", "25-35", "35-55", "55+"];
 
 export const ageGroupData = {
   labels,
   datasets: [
     {
-      label: "Dataset 1",
-      data: labels.map(() => faker.number.int({ min: -1000, max: 1000 })),
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
+      data: labels.map(() => faker.number.int({ min: 0, max: 1000 })),
+      borderColor: "hsla(144, 83%, 35%, 1)",
+      backgroundColor: "hsla(144, 83%, 35%, 1)",
+      stack: "Stack 0",
     },
     {
-      label: "Dataset 2",
-      data: labels.map(() => faker.number.int({ min: -1000, max: 1000 })),
-      borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
+      data: labels.map(() => faker.number.int({ min: 0, max: 1000 })),
+      borderColor: "hsla(58, 100%, 66%, 1)",
+      backgroundColor: "hsla(58, 100%, 66%, 1)",
+      stack: "Stack 0",
+    },
+    {
+      data: labels.map(() => faker.number.int({ min: 0, max: 1000 })),
+      borderColor: "hsla(224, 33%, 24%, 1)",
+      backgroundColor: "hsla(224, 33%, 24%, 1)",
+      stack: "Stack 0",
     },
   ],
 };

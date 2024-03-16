@@ -1,5 +1,16 @@
 import { faker } from "@faker-js/faker";
 
+export const genderOptions = {
+  // cutout: 90,
+  plugins: {
+    title: {
+      text: "Gender",
+      display: true,
+      align: "start",
+    },
+  },
+} as const;
+
 const data = Array(3).fill({
   xLabel: faker.number.int({ min: 1, max: 80 }),
   value: faker.number.int({ min: 1, max: 80 }),
